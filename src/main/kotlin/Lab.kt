@@ -1,11 +1,12 @@
 
 fun main() {
-    listOf("three", "two", "one").forEach lit@{
+    listOf("three", "two", "one").forEach {
         if(it == "one") {
-            return@lit
+            return@forEach
             // т.к. forEach inline, то "return" не вызовет ошибку, он называется нелокальным
             // "retutn" без метки вызовет завершение функции main, а необходимо выйти из лямбды, для этого
-            // используем "return@lit" чтобы вернуться к метке lit@
+            // используем "return@forEach" чтобы вернуться локально к циклу forEach
+            // Ещё можно сделать лямбду ананонимной функцией, тогда return менять не надо
         }
         println(it)
     }
