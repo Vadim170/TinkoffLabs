@@ -1,3 +1,4 @@
+package ru.tinkoff.lab8_5
 
 fun main() {
     listOf("three", "two", "one").forEach {
