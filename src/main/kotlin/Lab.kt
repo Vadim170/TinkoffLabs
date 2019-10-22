@@ -1,15 +1,43 @@
-package ru.tinkoff.lab8_5
+package ru.tinkoff.lab8_6
 
-fun main() {
-    listOf("three", "two", "one").forEach {
-        if(it == "one") {
-            return@forEach
-            // т.к. forEach inline, то "return" не вызовет ошибку, он называется нелокальным
-            // "retutn" без метки вызовет завершение функции main, а необходимо выйти из лямбды, для этого
-            // используем "return@forEach" чтобы вернуться локально к циклу forEach
-            // Ещё можно сделать лямбду ананонимной функцией, тогда return менять не надо
-        }
-        println(it)
+import kotlinx.coroutines.*
+import java.time.Duration
+
+suspend fun main() {
+    val pets = ArrayList<Pet>()
+    pets.apply {
+        add(Pet("Пёс", Duration.ofSeconds(1)))
+        add(Pet("Вася", Duration.ofSeconds(4)))
+        add(Pet("Бобик", Duration.ofSeconds(3)))
+        add(Pet("Тотоша", Duration.ofSeconds(1)))
+        add(Pet("Барс", Duration.ofSeconds(2)))
     }
-    println("boom!")
+
+    // Задание 1
+    println("Задание 1:")
+    runBlocking {
+        pets.forEach {
+            launch { it.eat() }
+        }
+    }
+    println("Животные накормлены")
+
+    // Задание 2
+    println("Задание 2:")
+    GlobalScope.async {
+        pets.forEach {
+            launch { it.eat()}
+        }
+        println("Еда роздана")
+    }.await() // вызывая ".await()" блокируется поток
+    println("Животные накормлены")
+}
+
+class Pet(
+    val nickName: String,
+    val mealDuration: java.time.Duration = Duration.ZERO) {
+    suspend fun eat() {
+        delay(mealDuration.toMillis())
+        println("$nickName покушал")
+    }
 }
