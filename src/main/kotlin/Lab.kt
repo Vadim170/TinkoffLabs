@@ -24,12 +24,12 @@ suspend fun main() {
 
     // Задание 2
     println("Задание 2:")
-    GlobalScope.async {
+    coroutineScope {
         pets.forEach {
             launch { it.eat()}
         }
         println("Еда роздана")
-    }.await() // вызывая ".await()" блокируется поток
+    }
     println("Животные накормлены")
 }
 
