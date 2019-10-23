@@ -24,18 +24,19 @@ suspend fun main() {
 
     // Задание 2
     println("Задание 2:")
-    coroutineScope {
+    val globalScope = GlobalScope.async {
         pets.forEach {
             launch { it.eat()}
         }
-        println("Еда роздана")
     }
+    println("Еда роздана")
+    globalScope.await()
     println("Животные накормлены")
 }
 
 class Pet(
     val nickName: String,
-    val mealDuration: java.time.Duration = Duration.ZERO) {
+    val mealDuration: Duration = Duration.ZERO) {
     suspend fun eat() {
         delay(mealDuration.toMillis())
         println("$nickName покушал")
