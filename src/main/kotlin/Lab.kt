@@ -24,14 +24,19 @@ suspend fun main() {
 
     // Задание 2
     println("Задание 2:")
-    val globalScope = GlobalScope.async {
-        pets.forEach {
-            launch { it.eat()}
+    GlobalScope.launch {
+        val result = async {
+            pets.forEach {
+                launch { it.eat() }
+            }
+        }
+        launch{
+            result.await()
+            println("Животные накормлены")
         }
     }
     println("Еда роздана")
-    globalScope.await()
-    println("Животные накормлены")
+    Thread.sleep(5000) // Даю время для завершения фонового потока корутины.
 }
 
 class Pet(
