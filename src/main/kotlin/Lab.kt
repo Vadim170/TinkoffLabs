@@ -1,14 +1,14 @@
-package ru.tinkoff.lab10_4
-
-import java.util.HashSet
+package ru.tinkoff.lab10_5
 
 fun main() {
-    val listSmeshariki = ArrayList<String>()
-    listSmeshariki.addAll(arrayOf("Крош","Ежик","Нюша","Бараш"))
-    val setSmeshariki = HashSet<String>()
-    setSmeshariki.addAll(arrayOf("Крош","Ежик","Нюша","Бараш"))
+    val listSmeshariki = listOf("Крош","Ежик","Нюша","Бараш")
+    val destListSmeshariki = ArrayList<String>()
+    listSmeshariki.forEach { destListSmeshariki.add(it) }
     println("Список смешариков:")
-    listSmeshariki.forEach { println(it) }
+    destListSmeshariki.forEach { println(it) }
+    val setSmeshariki = setOf("Крош","Ежик","Нюша","Бараш")
+    val destSetSmeshariki = HashSet<String>()
+    setSmeshariki.forEach { destSetSmeshariki.add(it) }
     println("Множество смешариков:")
-    setSmeshariki.forEach { println(it) }
+    destSetSmeshariki.forEach { println(it) }
 }
