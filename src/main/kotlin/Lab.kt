@@ -1,7 +1,5 @@
 package ru.tinkoff.lab10_4
 
-import java.util.HashSet
-
 fun main() {
     val listSmeshariki = ArrayList<String>()
     listSmeshariki.addAll(arrayOf("Крош","Ежик","Нюша","Бараш"))
