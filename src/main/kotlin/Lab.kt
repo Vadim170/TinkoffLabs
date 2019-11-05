@@ -1,52 +1,28 @@
-package ru.tinkoff.lab11_2_1
-
-import java.util.*
+package ru.tinkoff.lab11_2_2
 
 fun main() {
+    val count = readLine()?.toInt()?:0
     val inputStr = readLine() ?: ""
-    if(inputStr.length <= 100_000) {
-        val stackErrorParentheses = getStackOfErrorParentheses(inputStr)
-        val result = getIndexLastClosableOrFirstOpeningParentheses(stackErrorParentheses)
-        println(
-            when (result) {
-                0 -> "Success"
-                else -> result
+
+    val nodes = mutableMapOf<Int,Int>()
+    inputStr.split(" ").forEachIndexed { index, parent -> nodes.put(index, parent.toInt()) }
+
+    val findNodes = mutableMapOf<Int,Int>()
+    val lastestIndexes = mutableSetOf<Int>()
+    var height = 0
+    findNodes.putAll(nodes.filterValues { it == -1 })
+    while (findNodes.isNotEmpty()) {
+        val temp = mutableMapOf<Int,Int>()
+        temp.putAll(findNodes)
+        findNodes.clear()
+        temp.forEach {
+            val level = it.key
+            if(!lastestIndexes.contains(level) && lastestIndexes.size < count) {
+                lastestIndexes.add(level)
+                findNodes.putAll(nodes.filterValues { it == level })
             }
-        )
-    }
-}
-
-private fun getStackOfErrorParentheses(
-    inputStr: String
-): Stack<Pair<Char, Int>> {
-    val pairsOfParentheses = mapOf(
-        '(' to ')',
-        '{' to '}',
-        '[' to ']')
-    val stackResult = Stack<Pair<Char, Int>>()
-    inputStr.forEachIndexed { index, c ->
-        if(c in arrayOf('(',')','{','}','[',']'))
-            if(stackResult.isNotEmpty() && pairsOfParentheses[stackResult.peek().first] == c)
-                stackResult.pop()
-            else stackResult.push(Pair(c, index+1))
-    }
-    return stackResult
-}
-
-private fun getIndexLastClosableOrFirstOpeningParentheses(
-    stackForCheck: Stack<Pair<Char, Int>>
-) :Int {
-    if(stackForCheck.isEmpty()) return 0
-    val openingParentheses = setOf('(','{','[')
-    val closingParentheses = setOf(')','}',']')
-    var indexFirstClosingParentheses = 0
-    var indexFirstOpeningParentheses = 0
-    while (stackForCheck.isNotEmpty()) {
-        when(stackForCheck.peek().first) {
-            in closingParentheses -> indexFirstClosingParentheses = stackForCheck.pop().second
-            in openingParentheses -> indexFirstOpeningParentheses = stackForCheck.pop().second
         }
+        ++height
     }
-    if(indexFirstClosingParentheses != 0) return indexFirstClosingParentheses
-    return indexFirstOpeningParentheses
+    println(height)
 }
