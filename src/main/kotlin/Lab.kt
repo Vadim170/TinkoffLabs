@@ -1,7 +1,7 @@
 package ru.tinkoff.lab12_2
 
 fun main() {
-    val names = listOf("Хрюша","Степаша","Филя","Гуля")
-    val helloNames = names.map{"Привет $it"}
+    val names = listOf("РҐСЂСЋС€Р°","РЎС‚РµРїР°С€Р°","Р¤РёР»СЏ","Р“СѓР»СЏ")
+    val helloNames = names.map{"РџСЂРёРІРµС‚ $it"}
     println(helloNames)
 }
