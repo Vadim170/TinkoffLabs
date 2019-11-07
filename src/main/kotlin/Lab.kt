@@ -1,10 +1,10 @@
 package ru.tinkoff.lab12_5
 
 fun main() {
-    val names = listOf("Хрюша","Степаша","Филя","Гуля")
+    val names = listOf("РҐСЂСЋС€Р°","РЎС‚РµРїР°С€Р°","Р¤РёР»СЏ","Р“СѓР»СЏ")
     val isExistNamesLengthMoreSeven = names.any { it.length == 7 }
     if(isExistNamesLengthMoreSeven)
-        println("Есть имена длинной семь символов")
+        println("Р•СЃС‚СЊ РёРјРµРЅР° РґР»РёРЅРЅРѕР№ СЃРµРјСЊ СЃРёРјРІРѕР»РѕРІ")
     else
-        println("Нет имен длинной семь символов")
+        println("РќРµС‚ РёРјРµРЅ РґР»РёРЅРЅРѕР№ СЃРµРјСЊ СЃРёРјРІРѕР»РѕРІ")
 }
