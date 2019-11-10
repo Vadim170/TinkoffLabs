@@ -1,28 +1,44 @@
 package ru.tinkoff.lab11_2_2
 
+import java.util.*
+
+class Node(val value: Int, val parent: Int)
+
+val time = System.nanoTime()
+val nodes = mutableListOf<Node>()
 fun main() {
-    val count = readLine()?.toInt()?:0
-    val inputStr = readLine() ?: ""
-
-    val nodes = mutableMapOf<Int,Int>()
-    inputStr.split(" ").forEachIndexed { index, parent -> nodes.put(index, parent.toInt()) }
-
-    val findNodes = mutableMapOf<Int,Int>()
-    val lastestIndexes = mutableSetOf<Int>()
-    var height = 0
-    findNodes.putAll(nodes.filterValues { it == -1 })
-    while (findNodes.isNotEmpty()) {
-        val temp = mutableMapOf<Int,Int>()
-        temp.putAll(findNodes)
-        findNodes.clear()
-        temp.forEach {
-            val level = it.key
-            if(!lastestIndexes.contains(level) && lastestIndexes.size < count) {
-                lastestIndexes.add(level)
-                findNodes.putAll(nodes.filterValues { it == level })
-            }
-        }
-        ++height
+    val cin = Scanner(System.`in`)
+    val count = cin.nextInt()
+    //val count = readLine()?.toInt()?:0
+    val root = mutableListOf<Int>()
+    repeat(count) { index ->
+        val parent = cin.nextInt()
+        val node = Node(index, parent)
+        nodes.add(node)
+        if(node.parent == -1) root.add(node.value)
     }
-    println(height)
+        //readLine() ?: ""
+    //println(System.nanoTime() - time)
+    //val splitedStr = inputStr.split(' ')
+    //println(System.nanoTime() - time)
+//    splitedStr.forEachIndexed { index, parent ->
+//        val node = Node(index, parent.toInt())
+//        nodes.add(node)
+//        if(node.parent == -1) root.add(node.value)
+//    }
+    println(calcHeightOfNodes(root))
+    println(System.nanoTime() - time)
+}
+
+
+fun calcHeightOfNodes(keys: List<Int>): Int {
+    if(keys.isEmpty()) return 0
+    val keysOfChilds = keysOfChilds(keys)
+    return 1 + calcHeightOfNodes(keysOfChilds)
+}
+
+private fun keysOfChilds(parentsKeys: List<Int>): List<Int> {
+    val result = mutableListOf<Int>()
+    nodes.forEach { if(it.parent in parentsKeys) result.add(it.value) }
+    return  result
 }
