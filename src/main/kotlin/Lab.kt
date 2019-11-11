@@ -1,44 +1,56 @@
 package ru.tinkoff.lab11_2_2
 
+import java.io.BufferedInputStream
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 import java.util.*
 
-class Node(val value: Int, val parent: Int)
-
-val time = System.nanoTime()
-val nodes = mutableListOf<Node>()
 fun main() {
+    System.`in` = BufferedInputStream("1 2 0 1 0 1 ".byteInputStream() )
     val cin = Scanner(System.`in`)
-    val count = cin.nextInt()
-    //val count = readLine()?.toInt()?:0
-    val root = mutableListOf<Int>()
-    repeat(count) { index ->
-        val parent = cin.nextInt()
-        val node = Node(index, parent)
-        nodes.add(node)
-        if(node.parent == -1) root.add(node.value)
+    val size = cin.nextInt()
+    val countPockets = cin.nextInt()
+
+    val taskQueue = PriorityQueue<Task>(size)
+    for (index in 0 until countPockets) {
+        val arrivalTime = cin.nextInt()
+        val duration = cin.nextInt()
+
+
+        if(taskQueue.size >= size) {
+            println(-1)
+            continue
+        } // Буффер переполнен
+        else(taskQueue.add(Task(arrivalTime, duration)))
+
+        // Мы получили новое время, теперь проматываем все операции процессора до этого момента
+        while(taskQueue.isNotEmpty() && Processor.isFree(arrivalTime)) {
+            Processor.addTask(arrivalTime, taskQueue.poll())
+        }
     }
-        //readLine() ?: ""
-    //println(System.nanoTime() - time)
-    //val splitedStr = inputStr.split(' ')
-    //println(System.nanoTime() - time)
-//    splitedStr.forEachIndexed { index, parent ->
-//        val node = Node(index, parent.toInt())
-//        nodes.add(node)
-//        if(node.parent == -1) root.add(node.value)
-//    }
-    println(calcHeightOfNodes(root))
-    println(System.nanoTime() - time)
+    Processor.doActualTask()
+
+
 }
 
+class Task(val arrivalTime: Int, val duration: Int)
 
-fun calcHeightOfNodes(keys: List<Int>): Int {
-    if(keys.isEmpty()) return 0
-    val keysOfChilds = keysOfChilds(keys)
-    return 1 + calcHeightOfNodes(keysOfChilds)
-}
+object Processor {
+    //private var timeFormulationTask = 0
+    private var timeRelease = 0
+    private var actualTask: Task? = null
+    fun isFree(nowTime: Int) : Boolean {
+        return nowTime >= timeRelease
+    }
 
-private fun keysOfChilds(parentsKeys: List<Int>): List<Int> {
-    val result = mutableListOf<Int>()
-    nodes.forEach { if(it.parent in parentsKeys) result.add(it.value) }
-    return  result
+    fun addTask(nowTime: Int, task: Task) {
+        if (!isFree(nowTime)) return
+        if (actualTask!=null) println(timeRelease)
+        actualTask = task
+        timeRelease = nowTime + task.duration
+    }
+
+    fun doActualTask() {
+        println(timeRelease)
+    }
 }
