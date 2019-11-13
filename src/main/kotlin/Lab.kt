@@ -11,7 +11,7 @@ fun main() {
     // Пробовал вводить дерево из 200 узлов высотой 4,
     // split выполнялся примерно в 7 раз дольше остальной части алгоритма (split - 49 мс, вычисление высоты - 7 мс)
     //val rootKeys = inputUsingScanner() // Вариант без split с Scanner
-    val rootKeys = inputUsingSplit(time) // Вариант c split
+    val rootKeys = inputUsingSplit() // Вариант c split
     println(calcHeightOfNodes(rootKeys))
     printElapsedMilliseconds()
 }
@@ -34,6 +34,7 @@ private fun inputUsingScanner(): List<Int> {
         if (node.parent == -1) rootKeys.add(node.key)
         else nodes.add(node)
     }
+    printElapsedMilliseconds()
     return rootKeys
 }
 
