@@ -1,10 +1,18 @@
-package ru.tinkoff.lab12_7
+package ru.tinkoff.lab14_2
+
+import ru.tinkoff.lab14_2.xmldsl.*
 
 fun main() {
-    val names = listOf("Хрюша","Степаша","Филя","Гуля")
-    val helloNamesLengthLessFive = names.asSequence()
-        .filter { it.length < 5 }
-        .map { "Привет $it" }
-        .toList()
-    println(helloNamesLengthLessFive)
+    val myObjectXML = objectXML {
+        name = "Имя"
+        supername = "Имя"
+        birthDate = "13.02.2019"
+        addresses {
+            +"Пример адреса"
+            +"Пример адреса"
+            +"Пример адреса"
+        }
+    }
+    println(myObjectXML)
 }
+
