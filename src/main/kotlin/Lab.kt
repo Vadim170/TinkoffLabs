@@ -25,7 +25,7 @@ suspend fun main() {
     println("Задание 2:")
     val globalScope = GlobalScope.async {
         pets.forEach {
-            launch { it.eat()}
+            launch { it.eat() }
         }
     }
     println("Еда роздана")
@@ -35,7 +35,8 @@ suspend fun main() {
 
 class Pet(
     val nickName: String,
-    val mealDuration: Duration = Duration.ZERO) {
+    val mealDuration: Duration = Duration.ZERO
+) {
     suspend fun eat() {
         delay(mealDuration.toMillis())
         println("$nickName покушал")
