@@ -3,16 +3,16 @@ package ru.tinkoff.lab5_7
 import com.google.common.collect.ComparisonChain
 import java.lang.StringBuilder
 
-data class Person (
+data class Person(
     val lastName: String,
     val firstName: String,
     val age: Int,
     val mailId: Int,
     val phoneNumber: String
 ) {
-    companion object : Comparator<Person>{
+    companion object : Comparator<Person> {
         override fun compare(o1: Person?, o2: Person?): Int {
-            if(o1 == null || o2 == null) return 0
+            if (o1 == null || o2 == null) return 0
             return ComparisonChain.start()
                 .compare(o1.lastName, o2.lastName)
                 .compare(o1.firstName, o2.firstName)
@@ -26,7 +26,7 @@ data class Person (
 
 object PersonsComparator : Comparator<Person> {
     override fun compare(o1: Person?, o2: Person?): Int {
-        if(o1 == null || o2 == null) return 0
+        if (o1 == null || o2 == null) return 0
         return ComparisonChain.start()
             .compare(o1.lastName, o2.lastName)
             .compare(o1.firstName, o2.firstName)
@@ -47,11 +47,11 @@ fun compareThreePerson(
     person2: Person,
     person3: Person,
     comparator: Comparator<Person>
-)  = StringBuilder()
-        .appendln(stringComparePersons(person1,person2, comparator))
-        .appendln(stringComparePersons(person1,person3, comparator))
-        .append(stringComparePersons(person2,person3, comparator))
-        .toString()
+) = StringBuilder()
+    .appendln(stringComparePersons(person1, person2, comparator))
+    .appendln(stringComparePersons(person1, person3, comparator))
+    .append(stringComparePersons(person2, person3, comparator))
+    .toString()
 
 fun main() {
     val person1 = Person("Иванов", "Семён", 17, 330045, "+79209826345")
