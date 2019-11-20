@@ -33,8 +33,7 @@ class Cat(
     sex: Sex? = null
 ) : Pet(nickname, age, sex)
 
-fun Pet.isAddult() =
-    age >= 2
+fun Pet.isAddult() = age >= 2
 
 val Pet.respectableNickname: String
     get() = "Dear ${this.nickname}"
