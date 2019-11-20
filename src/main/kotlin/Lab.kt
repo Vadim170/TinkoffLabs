@@ -4,7 +4,7 @@ import kotlinx.coroutines.*
 import java.time.Duration
 
 suspend fun main() {
-    val pets = arrayListOf(
+    val pets = listOf(
         Pet("Пёс", Duration.ofSeconds(1)),
         Pet("Вася", Duration.ofSeconds(4)),
         Pet("Бобик", Duration.ofSeconds(3)),
