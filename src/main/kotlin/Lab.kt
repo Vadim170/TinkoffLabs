@@ -23,10 +23,9 @@ private fun calcHeightOfNodes(keys: List<Int>): Int {
     return 1 + calcHeightOfNodes(keysOfChilds)
 }
 
-private fun keysOfChilds(parentsKeys: List<Int>): List<Int> {
-    val result = mutableListOf<Int>()
-    parents.forEach {
-        if(it.key in parentsKeys) result.addAll(it.value)
-    }
-    return result
-}
+private fun keysOfChilds(parentsKeys: List<Int>) =
+    parents.asSequence()
+        .filter { it.key in parentsKeys }
+        .flatMap { it.value.asSequence() }
+        .toList()
+
