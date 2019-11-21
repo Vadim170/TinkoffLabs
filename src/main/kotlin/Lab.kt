@@ -18,14 +18,13 @@ fun main() {
 }
 
 private fun calcHeightOfNodes(keys: List<Int>): Int {
-    if(keys.isEmpty()) return 0
     val keysOfChilds = keysOfChilds(keys)
-    return 1 + calcHeightOfNodes(keysOfChilds)
+    return if (keysOfChilds.isEmpty()) 1
+    else 1 + calcHeightOfNodes(keysOfChilds)
 }
 
 private fun keysOfChilds(parentsKeys: List<Int>) =
-    parents.asSequence()
-        .filter { it.key in parentsKeys }
-        .flatMap { it.value.asSequence() }
+    parentsKeys.asSequence()
+        .flatMap { parents[it]?.asSequence() ?: listOf<Int>().asSequence() }
         .toList()
 
