@@ -1,28 +1,30 @@
 package ru.tinkoff.lab11_2_2
 
+import java.util.*
+
+val parents = mutableMapOf<Int, MutableList<Int>>() // Key - родитель; Value - список его детей
+
 fun main() {
-    val count = readLine()?.toInt()?:0
-    val inputStr = readLine() ?: ""
-
-    val nodes = mutableMapOf<Int,Int>()
-    inputStr.split(" ").forEachIndexed { index, parent -> nodes.put(index, parent.toInt()) }
-
-    val findNodes = mutableMapOf<Int,Int>()
-    val lastestIndexes = mutableSetOf<Int>()
-    var height = 0
-    findNodes.putAll(nodes.filterValues { it == -1 })
-    while (findNodes.isNotEmpty()) {
-        val temp = mutableMapOf<Int,Int>()
-        temp.putAll(findNodes)
-        findNodes.clear()
-        temp.forEach {
-            val level = it.key
-            if(!lastestIndexes.contains(level) && lastestIndexes.size < count) {
-                lastestIndexes.add(level)
-                findNodes.putAll(nodes.filterValues { it == level })
-            }
-        }
-        ++height
+    val cin = Scanner(System.`in`)
+    val count = cin.nextInt()
+    repeat(count) { value ->
+        val parent = cin.nextInt()
+        if(parents.containsKey(parent)) parents[parent]?.add(value) // Если список с детьми этого родителя уже есть в мапе, то добавим ребенка
+        else parents[parent] = mutableListOf(value) // Если родителя ещё нет в мапе, то создадим элемент и список с одним ребёнком
     }
-    println(height)
+    parents[-1]?.let {
+        println(calcHeightOfNodes(it))
+    }
 }
+
+private fun calcHeightOfNodes(keys: List<Int>): Int {
+    val keysOfChilds = keysOfChilds(keys)
+    return if (keysOfChilds.isEmpty()) 1
+    else 1 + calcHeightOfNodes(keysOfChilds)
+}
+
+private fun keysOfChilds(parentsKeys: List<Int>) =
+    parentsKeys.asSequence()
+        .flatMap { parents[it]?.asSequence() ?: listOf<Int>().asSequence() }
+        .toList()
+
